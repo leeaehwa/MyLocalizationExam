@@ -22,45 +22,11 @@ namespace MyLocalizationExam
                     Properties.Settings.Default.Locale = "en-US";
                 Properties.Settings.Default.Save();
 
-                SelectCulture(Properties.Settings.Default.Locale);
+                //이렇게 해놓고 프로그램을 다시켜야 설정이 적용된다고 팝업을 띄우자 비쥬얼스튜디오도 언어 변경할때 그렇게 처리하고있당.
+                //프로그램이 다시 켜지면 setting에 저장된걸 가지고와서 적용시키니까 문제가 없음!
+
+//                SelectCulture(Properties.Settings.Default.Locale);
             }
-        }
-
-        public static void SelectCulture(string culture)
-        {
-            // List all our resources       
-            List<ResourceDictionary> dictionaryList = new List<ResourceDictionary>();
-            foreach (ResourceDictionary dictionary in Application.Current.Resources.MergedDictionaries)
-            {
-                dictionaryList.Add(dictionary);
-            }
-            // We want our specific culture       
-            string requestedCulture = string.Format("/Assets/StringResources.{0}.xaml", culture);
-            ResourceDictionary resourceDictionary = dictionaryList.FirstOrDefault(d => d.Source.OriginalString == requestedCulture);
-            if (resourceDictionary == null)
-            {
-                //리소스를 찾을수 없다면 기본 리소스로 지정      
-                requestedCulture = "/Assets/StringResources.ko-KR.xaml";
-                resourceDictionary = dictionaryList.FirstOrDefault(d => d.Source.OriginalString == requestedCulture);
-            }
-            if (resourceDictionary != null)
-            {
-                Application.Current.Resources.MergedDictionaries.Remove(resourceDictionary);
-                Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-            }
-
-            //지역화 설정
-            Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(culture);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
-
-
-
-
-
-            //윈도우 새로고침같은걸 어캐하지
-
-        
-        
         }
     }
 }
